@@ -1,0 +1,39 @@
+# ============================================================
+# WellML — konfigurasi project forecasting sumur minyak
+# ============================================================
+seed: 42
+
+paths:
+  raw_volve: data/raw/volve_production.xlsx
+  processed_dir: data/processed
+  models_dir: models
+  reports_dir: reports
+  portfolio_csv: data/processed/drilling_portfolio.csv   # ganti dengan data DDR/AFE Anda
+
+# ---------- 1. Forecast produksi (data Volve asli) ----------
+production:
+  horizon_days: 30            # target = rata-rata laju minyak 30 hari ke depan
+  min_history_days: 60        # butuh riwayat minimum sebelum forecast
+  test_start: "2015-10-01"    # out-of-time holdout
+  cv_folds: 4                 # walk-forward CV di data train
+  quantiles: [0.1, 0.5, 0.9]  # P10 / P50 / P90
+  lags: [1, 3, 7, 14, 30]
+  windows: [7, 30, 90]
+
+# ---------- 2. Portofolio pengeboran (risiko, biaya, durasi) ----------
+portfolio:
+  n_wells: 2500
+  test_from_year: 2022        # out-of-time: latih <=2021, uji >=2022
+  optuna_trials: 25
+  cv_folds: 5
+
+# ---------- 3. Asumsi ekonomi untuk decision support ----------
+economics:
+  oil_price_usd_bbl: 75
+  sm3_to_bbl: 6.2898
+  opex_usd_bbl: 18
+  royalty_tax_rate: 0.50
+  discount_rate: 0.10
+  production_years: 10
+  annual_decline: 0.22        # dipakai untuk ekstrapolasi tahun ke-2 dst.
+  sla_penalty_usd_per_day: 150000

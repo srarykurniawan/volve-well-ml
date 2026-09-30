@@ -1,0 +1,17 @@
+# Dependensi runtime (dipakai juga oleh Streamlit Community Cloud).
+# Versi di-pin sama dengan versi saat model dilatih, supaya file .joblib bisa dimuat.
+pandas==3.0.2
+numpy==2.4.4
+scipy==1.17.1
+scikit-learn==1.8.0
+lightgbm==4.7.0
+joblib==1.5.3
+pyyaml==6.0.3
+openpyxl==3.1.5
+pyarrow==25.0.1
+matplotlib==3.10.9
+streamlit==1.64.0
+plotly==7.1.0
+# hanya dipakai saat training ulang (termasuk tombol "Latih ulang" di dashboard)
+optuna==5.0.0
+shap==0.51.0
